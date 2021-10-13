@@ -10,7 +10,11 @@ namespace Battleships_Console
         public static Player Player1;
         static void Main(string[] args)
         {
-            Run();
+            var player = new Player(false);
+            player.Battlefield.PrintBattlefield();
+
+            //Run();
+
         }
 
         public static void Run()
@@ -74,12 +78,12 @@ namespace Battleships_Console
                 case 0:
                     //1 player
                     CreatePlayers(true);
-                    PlaceShips();
+                    //PlaceShips();
                     break;
                 case 1:
                     //2 players
                     CreatePlayers(false);
-                    PlaceShips();
+                    //PlaceShips();
                     break;
                 case 2:
                     //End program

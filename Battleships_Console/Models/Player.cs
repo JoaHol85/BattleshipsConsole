@@ -19,11 +19,7 @@ namespace Battleships_Console.Models
         public Player(bool cpuPlayer)
         {
             Name = cpuPlayer == true ? "CPU" : SetPlayerName();
-            Battlefield = new Battlefield()
-            {
-                Coordinates = new Coordinate[10, 10],
-                Player = this
-            };
+            Battlefield = new Battlefield(this);
             Destroyer = new Destroyer(this);
             Cruiser = new Cruiser(this);
             Battleship = new Battleship(this);
