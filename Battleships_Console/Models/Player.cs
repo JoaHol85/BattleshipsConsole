@@ -15,6 +15,7 @@ namespace Battleships_Console.Models
         public Cruiser Cruiser { get; set; }
         public Battleship Battleship { get; set; }
         public Carrier Carrier { get; set; }
+        public List<Ship> ListOfShips { get; set; }
 
         public Player(bool cpuPlayer)
         {
@@ -24,6 +25,13 @@ namespace Battleships_Console.Models
             Cruiser = new Cruiser(this);
             Battleship = new Battleship(this);
             Carrier = new Carrier(this);
+            ListOfShips = new List<Ship>()
+            {
+                Carrier,
+                Battleship,
+                Cruiser,
+                Destroyer
+            };
         }
 
         private static string SetPlayerName()

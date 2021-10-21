@@ -90,6 +90,18 @@ namespace Battleships_Console.Models
                     {
                         Console.ForegroundColor = ConsoleColor.Blue;
                     }
+                    else if (coordinate.Ship is Cruiser)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else if (coordinate.Ship is Battleship)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                    }
+                    else if (coordinate.Ship is Carrier)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Green;

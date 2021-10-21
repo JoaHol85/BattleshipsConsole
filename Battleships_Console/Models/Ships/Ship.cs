@@ -8,7 +8,6 @@ namespace Battleships_Console.Models.Ships
 {
     public class Ship
     {
-
         public virtual void SetShipToBattlefieldCoordinates()
         {
         }
@@ -17,9 +16,26 @@ namespace Battleships_Console.Models.Ships
         {
         }
 
-        public virtual void RotateShipCordinates()
+        public virtual void RotateShip()
         {
         }
+
+        public virtual void MoveShipUp()
+        {
+        }
+
+        public virtual void MoveShipDown()
+        {
+        }
+
+        public virtual void MoveShipLeft()
+        {
+        }
+
+        public virtual void MoveShipRight()
+        {
+        }
+
 
     }
 }

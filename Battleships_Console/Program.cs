@@ -25,11 +25,6 @@ namespace Battleships_Console
             MainMenu();
         }
 
-        public static void PlaceShips(Player player)
-        {
-            
-        }
-
         private static void MainMenu()
         {
             bool choiceMade = false;
@@ -80,12 +75,12 @@ namespace Battleships_Console
                 case 0:
                     //1 player
                     CreatePlayers(true);
-                    RunGame();
+                    RunGame(true);
                     break;
                 case 1:
                     //2 players
                     CreatePlayers(false);
-                    RunGame();
+                    RunGame(false);
                     break;
                 case 2:
                     //End program
@@ -118,98 +113,62 @@ namespace Battleships_Console
             Console.Clear();
         }
 
-        private static void RunGame()
+        private static void RunGame(bool singleplayer)
         {
 
             //Placera skepp på spelplan.
-            PlaceShips(Player1, Player1.Destroyer);
+            PlaceShips(Player1);
+            if (!singleplayer)
+                PlaceShips(Player2);
+            else
+                PlaceShips(Player2); // AUTOMATISERAT SPELARE CPU
         }
 
-        private static void PlaceShips(Player player, Destroyer destroyer)
+        private static void PlaceShips(Player player)
         {
-            while(true)
+            foreach (var ship in player.ListOfShips)
             {
-                Console.SetCursorPosition(0, 0);
-                player.Destroyer.SetShipToBattlefieldCoordinates();
-
-                player.Battlefield.PrintBattlefield();
-                Console.WriteLine("Vilket håll?");
-
-                ConsoleKeyInfo keyInput = Console.ReadKey(true);
-
-                if (keyInput.Key == ConsoleKey.S)
+                bool shipPlaced = false;
+                while (!shipPlaced)
                 {
-                    player.Destroyer.RemoveShipFromBattlefieldCoordiantes();
-                    destroyer.ListOfCoordinates[0].YPosition += 1;
-                    destroyer.ListOfCoordinates[1].YPosition += 1;
+                    Console.SetCursorPosition(0, 0);
+                    ship.SetShipToBattlefieldCoordinates();
 
-                    player.Destroyer.SetShipToBattlefieldCoordinates();
-                }
+                    player.Battlefield.PrintBattlefield();
+                    Console.WriteLine($"Move your {ship.GetType().Name} into position and press 'ENTER'.");
 
-                if (keyInput.Key == ConsoleKey.D)
-                {
-                    player.Destroyer.RemoveShipFromBattlefieldCoordiantes();
+                    ConsoleKeyInfo keyInput = Console.ReadKey(true);
 
-                    destroyer.ListOfCoordinates[0].XPosition += 1;
-                    destroyer.ListOfCoordinates[1].XPosition += 1;
-
-                    player.Destroyer.SetShipToBattlefieldCoordinates();
-                }
-
-                if (keyInput.Key == ConsoleKey.A)
-                {
-                    player.Destroyer.RemoveShipFromBattlefieldCoordiantes();
-
-                    destroyer.ListOfCoordinates[0].XPosition -= 1;
-                    destroyer.ListOfCoordinates[1].XPosition -= 1;
-
-                    player.Destroyer.SetShipToBattlefieldCoordinates();
-                }
-
-                if (keyInput.Key == ConsoleKey.W)
-                {
-                    player.Destroyer.RemoveShipFromBattlefieldCoordiantes();
-
-                    destroyer.ListOfCoordinates[0].YPosition -= 1;
-                    destroyer.ListOfCoordinates[1].YPosition -= 1;
-
-                    player.Destroyer.SetShipToBattlefieldCoordinates();
-                }
-
-                if (keyInput.Key == ConsoleKey.Spacebar)
-                {
-                    if (!destroyer.PositionHorizontally)
+                    if (keyInput.Key == ConsoleKey.S)
                     {
-                        player.Battlefield.Coordinates[destroyer.ListOfCoordinates[1].YPosition, destroyer.ListOfCoordinates[1].XPosition].RemoveShip();
-                        RotateShipCordinates(player, destroyer);
-                        player.Battlefield.Coordinates[destroyer.ListOfCoordinates[1].YPosition, destroyer.ListOfCoordinates[1].XPosition].VisualString = destroyer.VisualString;
-                        player.Battlefield.Coordinates[destroyer.ListOfCoordinates[1].YPosition, destroyer.ListOfCoordinates[1].XPosition].Ship = destroyer;
+                        ship.MoveShipDown();
                     }
-                    else if (destroyer.PositionHorizontally)
+
+                    if (keyInput.Key == ConsoleKey.D)
                     {
-                        player.Battlefield.Coordinates[destroyer.ListOfCoordinates[1].YPosition, destroyer.ListOfCoordinates[1].XPosition].RemoveShip();
-                        RotateShipCordinates(player, destroyer);
-                        player.Battlefield.Coordinates[destroyer.ListOfCoordinates[1].YPosition, destroyer.ListOfCoordinates[1].XPosition].VisualString = destroyer.VisualString;
-                        player.Battlefield.Coordinates[destroyer.ListOfCoordinates[1].YPosition, destroyer.ListOfCoordinates[1].XPosition].Ship = destroyer;
+                        ship.MoveShipRight();
+                    }
+
+                    if (keyInput.Key == ConsoleKey.A)
+                    {
+                        ship.MoveShipLeft();
+                    }
+
+                    if (keyInput.Key == ConsoleKey.W)
+                    {
+                        ship.MoveShipUp();
+                    }
+
+                    if (keyInput.Key == ConsoleKey.Spacebar)
+                    {
+                        ship.RotateShip();
+                    }
+
+                    if (keyInput.Key == ConsoleKey.Enter)
+                    {
+                        shipPlaced = true;
                     }
                 }
-
-            }
-        }
-
-        private static void RotateShipCordinates(Player player, Destroyer destroyer)
-        {
-            if (!destroyer.PositionHorizontally)
-            {
-                destroyer.ListOfCoordinates[1].YPosition -= 1;
-                destroyer.ListOfCoordinates[1].XPosition -= 1;
-                destroyer.PositionHorizontally = true;
-            }
-            else if (destroyer.PositionHorizontally)
-            {
-                destroyer.ListOfCoordinates[1].YPosition += 1;
-                destroyer.ListOfCoordinates[1].XPosition += 1;
-                destroyer.PositionHorizontally = false;
             }
         }
     }
