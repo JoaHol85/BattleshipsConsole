@@ -31,9 +31,22 @@ namespace Battleships_Console.Models
             Console.Write("Type your name: ");
             return Console.ReadLine();
         }
-    
-    
-    }
 
-    
+        public void PrintPlayerBar()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                Console.Write("\u2588");
+            }
+            Console.BackgroundColor = ConsoleColor.Gray;
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.Write(Name);
+            Console.ResetColor();
+            for (int i = 0; i < (29 - Name.Length); i++)
+            {
+                Console.Write("\u2588");
+            }
+            Console.WriteLine();
+        }
+    }
 }

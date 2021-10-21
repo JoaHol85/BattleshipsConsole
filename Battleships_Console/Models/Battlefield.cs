@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battleships_Console.Models.Ships;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,51 +14,94 @@ namespace Battleships_Console.Models
         public Battlefield(Player player)
         {
             Player = player;
-            Coordinates = new Coordinate[11, 11];
-            MakeBFFrame();
+            Coordinates = new Coordinate[12, 12];
+            CreateBattlefield();
         }
 
-
-
-
         //U+2588 = Block
-        private void MakeBFFrame()
+        private void CreateBattlefield()
         {
             for (int y = 0; y < Coordinates.GetLength(0); y++)
             {
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
                     if (y == 0 && x == 0)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "" };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588", Border = true };
                     else if (y == Coordinates.GetLength(0) - 1 && x == Coordinates.GetLength(1) - 1)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "" };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588", Border = true };
                     else if (y == 0 || y == Coordinates.GetLength(0) - 1)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588\u2588" };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588", Border = true };
                     else if (x == 0 || x == Coordinates.GetLength(1) - 1)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588" };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588", Border = true };
                     else
-                        Coordinates[y, x] = new Coordinate() { VisualString = "~~~~" };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "~~~", Border = false };
                 }
             }
         }
 
         public void PrintBattlefield()
         {
+            //Coordinates[5, 7].VisualString = "\u2588O\u2588";
             for (int y = 0; y < Coordinates.GetLength(0); y++)
             {
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
-                    Console.Write(Coordinates[y, x].VisualString);
+                    
+                    BattlefieldColors(Coordinates[y, x]/*.VisualString*/);
+                    //Console.Write(Coordinates[y, x].VisualString);
                 }
                 Console.WriteLine();
-                if (y != 0 || y != Coordinates.GetLength(0) - 1)
+                if (y != 0 && y != Coordinates.GetLength(0) - 1)
                 {
                     for (int x = 0; x < Coordinates.GetLength(1); x++)
                     {
-                        Console.Write(Coordinates[y, x].VisualString);
+                        BattlefieldColors(Coordinates[y, x]/*.VisualString*/);
+                        //Console.Write(Coordinates[y, x].VisualString);
                     }
                     Console.WriteLine();
                 }
+            }
+        }
+
+        private void BattlefieldColors(Coordinate coordinate /*string input*/)
+        {
+            switch (coordinate.VisualString)
+            {
+                case "~~~":
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(coordinate.VisualString);
+                    Console.ResetColor();
+                    break;
+
+                case "\u2588":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(coordinate.VisualString);
+                    Console.ResetColor();
+                    break;
+
+                case "\u2588\u2588":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(coordinate.VisualString);
+                    Console.ResetColor();
+                    break;
+
+                case "\u2588\u2588\u2588":
+                    if (coordinate.Ship is Destroyer)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    Console.Write(coordinate.VisualString);
+                    Console.ResetColor();
+                    break;
+
+                default:
+                    Console.Write(coordinate.VisualString);
+                    break;
+                    
             }
         }
     }

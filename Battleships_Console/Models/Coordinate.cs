@@ -11,9 +11,13 @@ namespace Battleships_Console.Models
     {
         public bool HasBeenHit { get; set; }
         public Ship Ship { get; set; }
-        public int ShipCoordinatePosition { get; set; }
         public string VisualString { get; set; }
+        public bool Border { get; set; }
 
-
+        public void RemoveShip()
+        {
+            VisualString = "~~~";
+            Ship = null;
+        }
     }
 }

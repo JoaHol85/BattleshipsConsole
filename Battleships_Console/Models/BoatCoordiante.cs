@@ -10,5 +10,10 @@ namespace Battleships_Console.Models
     {
         public int XPosition { get; set; }
         public int YPosition { get; set; }
+        public BoatCoordiante(int xPosition, int yPosition)
+        {
+            XPosition = xPosition;
+            YPosition = yPosition;
+        }
     }
 }
