@@ -10,7 +10,6 @@ namespace Battleships_Console.Models.Ships
     {
         public Player Player { get; set; }
         public List<BoatCoordiante> ListOfCoordinates { get; set; }
-        public string VisualString { get; set; } = "\u2588\u2588\u2588";
         public bool PositionHorizontally { get; set; }
 
         public Carrier(Player player)
@@ -27,216 +26,150 @@ namespace Battleships_Console.Models.Ships
             };
         }
 
+        public override bool TrySetShipToBattlefieldCoordinates()
+        {
+            return TrySetShipToBattlefieldCoordinatesMethod(ListOfCoordinates, Player);
+        }
 
         public override void SetShipToBattlefieldCoordinates()
         {
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].VisualString = VisualString;
-            //    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].Ship = this;
-            //}
-            Player.Battlefield.Coordinates[ListOfCoordinates[0].YPosition, ListOfCoordinates[0].XPosition].VisualString = VisualString;
-            Player.Battlefield.Coordinates[ListOfCoordinates[0].YPosition, ListOfCoordinates[0].XPosition].Ship = this;
-            Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].VisualString = VisualString;
-            Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].Ship = this;
-            Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].VisualString = VisualString;
-            Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].Ship = this;
-            Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].VisualString = VisualString;
-            Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].Ship = this;
-            Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].VisualString = VisualString;
-            Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].Ship = this;
+            SetShipToBattlefieldCoordinatesMethod(Player, ListOfCoordinates);
         }
 
         public override void RemoveShipFromBattlefieldCoordiantes()
         {
-            //for (int i = 0; i < 3; i++)
-            //{
-            //    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].RemoveShip();
-            //}
-            Player.Battlefield.Coordinates[ListOfCoordinates[0].YPosition, ListOfCoordinates[0].XPosition].RemoveShip();
-            Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].RemoveShip();
-            Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].RemoveShip();
-            Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].RemoveShip();
-            Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].RemoveShip();
+            RemoveShipFromBattlefieldCoordiantesMethod(Player, ListOfCoordinates);
         }
 
         public override void RotateShip()
         {
             if (!PositionHorizontally)
             {
-                //for (int i = 1; i < 3; i++)
-                //{
-                //    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].RemoveShip();
-                //    ListOfCoordinates[i].YPosition -= i;
-                //    ListOfCoordinates[i].XPosition -= i;
-                //}
-                Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].RemoveShip();
-                Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].RemoveShip();
-                Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].RemoveShip();
-                Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].RemoveShip();
-                ListOfCoordinates[1].YPosition -= 1;
-                ListOfCoordinates[1].XPosition -= 1;
-                ListOfCoordinates[2].YPosition -= 2;
-                ListOfCoordinates[2].XPosition -= 2;
-                ListOfCoordinates[3].YPosition -= 3;
-                ListOfCoordinates[3].XPosition -= 3;
-                ListOfCoordinates[4].YPosition -= 4;
-                ListOfCoordinates[4].XPosition -= 4;
+                for (int i = 1; i < 5; i++)
+                {
+                    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].RemoveShip();
+                    ListOfCoordinates[i].YPosition -= i;
+                    ListOfCoordinates[i].XPosition -= i;
+                }
                 bool works = Check(true);
                 if (works)
                 {
                     PositionHorizontally = true;
                     SetShipToBattlefieldCoordinates();
+                    Player.Battlefield.SetAllShipsToBattlefield();
                 }
                 else
                 {
-                    //for (int i = 1; i < 3; i++)
-                    //{
-                    //    ListOfCoordinates[i].YPosition += i;
-                    //    ListOfCoordinates[i].XPosition += i;
-                    //}
-                    ListOfCoordinates[1].YPosition += 1;
-                    ListOfCoordinates[1].XPosition += 1;
-                    ListOfCoordinates[2].YPosition += 2;
-                    ListOfCoordinates[2].XPosition += 2;
-                    ListOfCoordinates[3].YPosition += 3;
-                    ListOfCoordinates[3].XPosition += 3;
-                    ListOfCoordinates[4].YPosition += 4;
-                    ListOfCoordinates[4].XPosition += 4;
+                    for (int i = 1; i < 5; i++)
+                    {
+                        ListOfCoordinates[i].YPosition += i;
+                        ListOfCoordinates[i].XPosition += i;
+                    }
                     SetShipToBattlefieldCoordinates();
                 }
             }
             else if (PositionHorizontally)
             {
-                //for (int i = 1; i < 3; i++)
-                //{
-                //    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].RemoveShip();
-                //    ListOfCoordinates[i].YPosition += i;
-                //    ListOfCoordinates[i].XPosition += i;
-                //}
-                Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].RemoveShip();
-                Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].RemoveShip();
-                Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].RemoveShip();
-                Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].RemoveShip();
-                ListOfCoordinates[1].YPosition += 1;
-                ListOfCoordinates[1].XPosition += 1;
-                ListOfCoordinates[2].YPosition += 2;
-                ListOfCoordinates[2].XPosition += 2;
-                ListOfCoordinates[3].YPosition += 3;
-                ListOfCoordinates[3].XPosition += 3;
-                ListOfCoordinates[4].YPosition += 4;
-                ListOfCoordinates[4].XPosition += 4;
+                for (int i = 1; i < 5; i++)
+                {
+                    Player.Battlefield.Coordinates[ListOfCoordinates[i].YPosition, ListOfCoordinates[i].XPosition].RemoveShip();
+                    ListOfCoordinates[i].YPosition += i;
+                    ListOfCoordinates[i].XPosition += i;
+                }
                 bool works = Check(true);
                 if (works)
                 {
                     PositionHorizontally = false;
                     SetShipToBattlefieldCoordinates();
+                    Player.Battlefield.SetAllShipsToBattlefield();
                 }
                 else
                 {
-                    //for (int i = 1; i < 3; i++)
-                    //{
-                    //    ListOfCoordinates[i].YPosition -= i;
-                    //    ListOfCoordinates[i].XPosition -= i;
-                    //}
-                    ListOfCoordinates[1].YPosition -= 1;
-                    ListOfCoordinates[1].XPosition -= 1;
-                    ListOfCoordinates[2].YPosition -= 2;
-                    ListOfCoordinates[2].XPosition -= 2;
-                    ListOfCoordinates[3].YPosition -= 3;
-                    ListOfCoordinates[3].XPosition -= 3;
-                    ListOfCoordinates[4].YPosition -= 4;
-                    ListOfCoordinates[4].XPosition -= 4;
+                    for (int i = 1; i < 5; i++)
+                    {
+                        ListOfCoordinates[i].YPosition -= i;
+                        ListOfCoordinates[i].XPosition -= i;
+                    }
                     SetShipToBattlefieldCoordinates();
                 }
             }
-
         }
 
         public override void MoveShipUp()
         {
+            Placeable = false;
+
             RemoveShipFromBattlefieldCoordiantes();
-            ListOfCoordinates[0].YPosition -= 1;
-            ListOfCoordinates[1].YPosition -= 1;
-            ListOfCoordinates[2].YPosition -= 1;
-            ListOfCoordinates[3].YPosition -= 1;
-            ListOfCoordinates[4].YPosition -= 1;
+            MoveShipUpMethod(ListOfCoordinates);
             bool works = Check(false);
             if (works)
+            {
+                Player.Battlefield.SetAllShipsToBattlefield();
+                Placeable = TrySetShipToBattlefieldCoordinatesMethod(ListOfCoordinates, Player);
                 SetShipToBattlefieldCoordinates();
+            }
             else
             {
-                ListOfCoordinates[0].YPosition += 1;
-                ListOfCoordinates[1].YPosition += 1;
-                ListOfCoordinates[2].YPosition += 1;
-                ListOfCoordinates[3].YPosition += 1;
-                ListOfCoordinates[4].YPosition += 1;
+                MoveShipDownMethod(ListOfCoordinates);
                 SetShipToBattlefieldCoordinates();
             }
         }
 
         public override void MoveShipDown()
         {
+            Placeable = false;
+
             RemoveShipFromBattlefieldCoordiantes();
-            ListOfCoordinates[0].YPosition += 1;
-            ListOfCoordinates[1].YPosition += 1;
-            ListOfCoordinates[2].YPosition += 1;
-            ListOfCoordinates[3].YPosition += 1;
-            ListOfCoordinates[4].YPosition += 1;
+            MoveShipDownMethod(ListOfCoordinates);
             bool works = Check(false);
             if (works)
+            {
+                Player.Battlefield.SetAllShipsToBattlefield();
+                Placeable = TrySetShipToBattlefieldCoordinatesMethod(ListOfCoordinates, Player);
                 SetShipToBattlefieldCoordinates();
+            }
             else
             {
-                ListOfCoordinates[0].YPosition -= 1;
-                ListOfCoordinates[1].YPosition -= 1;
-                ListOfCoordinates[2].YPosition -= 1;
-                ListOfCoordinates[3].YPosition -= 1;
-                ListOfCoordinates[4].YPosition -= 1;
+                MoveShipUpMethod(ListOfCoordinates);
                 SetShipToBattlefieldCoordinates();
             }
         }
 
         public override void MoveShipLeft()
         {
+            Placeable = false;
             RemoveShipFromBattlefieldCoordiantes();
-            ListOfCoordinates[0].XPosition -= 1;
-            ListOfCoordinates[1].XPosition -= 1;
-            ListOfCoordinates[2].XPosition -= 1;
-            ListOfCoordinates[3].XPosition -= 1;
-            ListOfCoordinates[4].XPosition -= 1;
+            MoveShipLeftMethod(ListOfCoordinates);
             bool works = Check(false);
             if (works)
+            {
+                Player.Battlefield.SetAllShipsToBattlefield();
+                Placeable = TrySetShipToBattlefieldCoordinatesMethod(ListOfCoordinates, Player);
                 SetShipToBattlefieldCoordinates();
+            }
             else
             {
-                ListOfCoordinates[0].XPosition += 1;
-                ListOfCoordinates[1].XPosition += 1;
-                ListOfCoordinates[2].XPosition += 1;
-                ListOfCoordinates[3].XPosition += 1;
-                ListOfCoordinates[4].XPosition += 1;
+                MoveShipRightMethod(ListOfCoordinates);
                 SetShipToBattlefieldCoordinates();
             }
         }
 
         public override void MoveShipRight()
         {
+            Placeable = false;
+
             RemoveShipFromBattlefieldCoordiantes();
-            ListOfCoordinates[0].XPosition += 1;
-            ListOfCoordinates[1].XPosition += 1;
-            ListOfCoordinates[2].XPosition += 1;
-            ListOfCoordinates[3].XPosition += 1;
-            ListOfCoordinates[4].XPosition += 1;
+            MoveShipRightMethod(ListOfCoordinates);
             bool works = Check(false);
             if (works)
+            {
+                Player.Battlefield.SetAllShipsToBattlefield();
+                Placeable = TrySetShipToBattlefieldCoordinatesMethod(ListOfCoordinates, Player);
                 SetShipToBattlefieldCoordinates();
+            }
             else
             {
-                ListOfCoordinates[0].XPosition -= 1;
-                ListOfCoordinates[1].XPosition -= 1;
-                ListOfCoordinates[2].XPosition -= 1;
-                ListOfCoordinates[3].XPosition -= 1;
-                ListOfCoordinates[4].XPosition -= 1;
+                MoveShipLeftMethod(ListOfCoordinates);
                 SetShipToBattlefieldCoordinates();
             }
         }
@@ -264,25 +197,6 @@ namespace Battleships_Console.Models.Ships
                 ListOfCoordinates[3].XPosition >= Player.Battlefield.Coordinates.GetLength(1) - 1 ||
                 ListOfCoordinates[4].XPosition >= Player.Battlefield.Coordinates.GetLength(1) - 1)
                 return false;
-            if (!rotatingShip)
-            {
-                if (Player.Battlefield.Coordinates[ListOfCoordinates[0].YPosition, ListOfCoordinates[0].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].Ship != null)
-                    return false;
-            }
-            else
-            {
-                if (Player.Battlefield.Coordinates[ListOfCoordinates[1].YPosition, ListOfCoordinates[1].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[2].YPosition, ListOfCoordinates[2].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[3].YPosition, ListOfCoordinates[3].XPosition].Ship != null ||
-                    Player.Battlefield.Coordinates[ListOfCoordinates[4].YPosition, ListOfCoordinates[4].XPosition].Ship != null)
-                    return false;
-            }
-
-
             return true;
         }
 

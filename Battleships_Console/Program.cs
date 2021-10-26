@@ -11,7 +11,7 @@ namespace Battleships_Console
         public static Player Player1;
         static void Main(string[] args)
         {
-            Player1 = new Player(false);
+            //Player1 = new Player(false);
             //var player = new Player(false);
             //player.PrintPlayerBar();
             //player.Battlefield.PrintBattlefield();
@@ -23,6 +23,7 @@ namespace Battleships_Console
         {
             EnteringScreen();
             MainMenu();
+            
         }
 
         private static void MainMenu()
@@ -122,14 +123,14 @@ namespace Battleships_Console
                 PlaceShips(Player2);
             else
                 PlaceShips(Player2); // AUTOMATISERAT SPELARE CPU
+
         }
 
         private static void PlaceShips(Player player)
         {
             foreach (var ship in player.ListOfShips)
             {
-                bool shipPlaced = false;
-                while (!shipPlaced)
+                while (!ship.HasBeenPlacedOnBattlefield)
                 {
                     Console.SetCursorPosition(0, 0);
                     ship.SetShipToBattlefieldCoordinates();
@@ -166,7 +167,8 @@ namespace Battleships_Console
 
                     if (keyInput.Key == ConsoleKey.Enter)
                     {
-                        shipPlaced = true;
+                        if(ship.Placeable)
+                            ship.HasBeenPlacedOnBattlefield = true;
                     }
                 }
             }

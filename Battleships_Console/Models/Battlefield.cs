@@ -18,7 +18,6 @@ namespace Battleships_Console.Models
             CreateBattlefield();
         }
 
-        //U+2588 = Block
         private void CreateBattlefield()
         {
             for (int y = 0; y < Coordinates.GetLength(0); y++)
@@ -41,29 +40,26 @@ namespace Battleships_Console.Models
 
         public void PrintBattlefield()
         {
-            //Coordinates[5, 7].VisualString = "\u2588O\u2588";
             for (int y = 0; y < Coordinates.GetLength(0); y++)
             {
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
                     
-                    BattlefieldColors(Coordinates[y, x]/*.VisualString*/);
-                    //Console.Write(Coordinates[y, x].VisualString);
+                    BattlefieldColors(Coordinates[y, x]);
                 }
                 Console.WriteLine();
                 if (y != 0 && y != Coordinates.GetLength(0) - 1)
                 {
                     for (int x = 0; x < Coordinates.GetLength(1); x++)
                     {
-                        BattlefieldColors(Coordinates[y, x]/*.VisualString*/);
-                        //Console.Write(Coordinates[y, x].VisualString);
+                        BattlefieldColors(Coordinates[y, x]);
                     }
                     Console.WriteLine();
                 }
             }
         }
 
-        private void BattlefieldColors(Coordinate coordinate /*string input*/)
+        private void BattlefieldColors(Coordinate coordinate)
         {
             switch (coordinate.VisualString)
             {
@@ -116,5 +112,18 @@ namespace Battleships_Console.Models
                     
             }
         }
+
+        public void SetAllShipsToBattlefield()
+        {
+            foreach (var ship in Player.ListOfShips)
+            {
+                if (ship.HasBeenPlacedOnBattlefield)
+                {
+                    ship.SetShipToBattlefieldCoordinates();
+                }
+            }   
+        }
+
+
     }
 }

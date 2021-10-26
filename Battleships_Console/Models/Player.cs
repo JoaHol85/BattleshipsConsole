@@ -27,10 +27,10 @@ namespace Battleships_Console.Models
             Carrier = new Carrier(this);
             ListOfShips = new List<Ship>()
             {
-                Carrier,
                 Battleship,
-                Cruiser,
-                Destroyer
+                Carrier,
+                Destroyer,
+                Cruiser
             };
         }
 
