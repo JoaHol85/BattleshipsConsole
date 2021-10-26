@@ -8,15 +8,14 @@ namespace Battleships_Console.Models.Ships
 {
     public class Battleship : Ship
     {
-        public Coordinate[] TempBoatCoordiantes { get; set; }
         public bool PositionHorizontally { get; set; }
         public List<BoatCoordiante> ListOfCoordinates { get; set; }
         public Player Player { get; set; }
         public Battleship(Player player)
         {
+            ShipSunk = false;
             Player = player;
             PositionHorizontally = false;
-            TempBoatCoordiantes = new Coordinate[4];
             ListOfCoordinates = new List<BoatCoordiante>()
             {
                 new BoatCoordiante(1, 1),

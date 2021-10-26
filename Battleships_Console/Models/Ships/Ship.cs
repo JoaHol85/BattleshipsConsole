@@ -11,6 +11,7 @@ namespace Battleships_Console.Models.Ships
         public string VisualString { get; set; } = "\u2588\u2588\u2588";
         public bool HasBeenPlacedOnBattlefield { get; set; } = false;
         public bool Placeable { get; set; }
+        public bool ShipSunk { get; set; }
 
 
 

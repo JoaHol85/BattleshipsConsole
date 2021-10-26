@@ -14,6 +14,7 @@ namespace Battleships_Console.Models.Ships
 
         public Carrier(Player player)
         {
+            ShipSunk = false;
             Player = player;
             PositionHorizontally = false;
             ListOfCoordinates = new List<BoatCoordiante>()

@@ -116,14 +116,54 @@ namespace Battleships_Console
 
         private static void RunGame(bool singleplayer)
         {
-
+            bool player1Won = false;
+            bool player2Won = false;
+            bool finished = false;
             //Placera skepp på spelplan.
             PlaceShips(Player1);
             if (!singleplayer)
                 PlaceShips(Player2);
             else
                 PlaceShips(Player2); // AUTOMATISERAT SPELARE CPU
+            while (!finished)
+            {
+                Console.WriteLine($"Time for {Player1.Name} to fire a round at {Player2.Name}.\n" +
+                                  $"Press any key to continue!");
+                Console.ReadKey();
 
+                //FIRE AT SHIPS!!!
+
+
+
+
+
+                Console.WriteLine($"Time for {Player2.Name} to fire a round at {Player1.Name}.\n" +
+                  $"Press any key to continue!");
+                Console.ReadKey();
+                //FIRE AT SHIPS!!!
+                player1Won = Player1.AllShipsSunk();
+                player2Won = Player2.AllShipsSunk();
+                if (player1Won && player2Won)
+                {
+                    Console.WriteLine("DRAW! You sunk your opponents last ship at the same time!");
+                    finished = true;
+                    break;
+                }
+                if (player1Won)
+                {
+                    Console.WriteLine($"{Player1.Name} WON, Congratulations!!!" +
+                                      $"{Player2.Name} you better go and practice some more before another game with {Player1.Name}");
+                    finished = true;
+                    break;
+                }
+                if (player2Won)
+                {
+                    Console.WriteLine($"{Player2.Name} WON, Congratulations!!!" +
+                                      $"{Player1.Name} you better go and practice some more before another game with {Player2.Name}");
+                    finished = true;
+                    break;
+                }
+            }
         }
 
         private static void PlaceShips(Player player)

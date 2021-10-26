@@ -13,6 +13,7 @@ namespace Battleships_Console.Models.Ships
         public bool PositionHorizontally { get; set; }
         public Cruiser(Player player)
         {
+            ShipSunk = false;
             Player = player;
             PositionHorizontally = false;
             ListOfCoordinates = new List<BoatCoordiante>()

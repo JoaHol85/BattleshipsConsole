@@ -25,9 +25,9 @@ namespace Battleships_Console.Models
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
                     if (y == 0 && x == 0)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588", Border = true };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588\u2588\u2588", Border = true };
                     else if (y == Coordinates.GetLength(0) - 1 && x == Coordinates.GetLength(1) - 1)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588", Border = true };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588\u2588\u2588", Border = true };
                     else if (y == 0 || y == Coordinates.GetLength(0) - 1)
                         Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588", Border = true };
                     else if (x == 0 || x == Coordinates.GetLength(1) - 1)
@@ -40,23 +40,56 @@ namespace Battleships_Console.Models
 
         public void PrintBattlefield()
         {
+            PrintLetterCoordinates();
             for (int y = 0; y < Coordinates.GetLength(0); y++)
             {
+                PrintNumberCoordinates(y, true);
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
-                    
                     BattlefieldColors(Coordinates[y, x]);
                 }
+                PrintNumberCoordinates(y, false);
                 Console.WriteLine();
                 if (y != 0 && y != Coordinates.GetLength(0) - 1)
                 {
+                    PrintNumberCoordinates(y, true);
                     for (int x = 0; x < Coordinates.GetLength(1); x++)
                     {
                         BattlefieldColors(Coordinates[y, x]);
                     }
+                    PrintNumberCoordinates(y, false);
                     Console.WriteLine();
                 }
             }
+            PrintLetterCoordinates();
+
+        }
+
+        private void PrintNumberCoordinates(int number, bool cordinatesToTheLeft)
+        {
+            if (number != 0 && number != 11)
+            {
+                if (number == 10)
+                    Console.Write(number);
+                else
+                {
+                    if (cordinatesToTheLeft)
+                        Console.Write($"{number} ");
+                    else
+                        Console.Write($" {number}");
+                }
+            }
+        }
+
+        private void PrintLetterCoordinates()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("  \u2588\u2588 ");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("A  B  C  D  E  F  G  H  I  J");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" \u2588\u2588");
+            Console.ResetColor();
         }
 
         private void BattlefieldColors(Coordinate coordinate)
@@ -76,6 +109,12 @@ namespace Battleships_Console.Models
                     break;
 
                 case "\u2588\u2588":
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(coordinate.VisualString);
+                    Console.ResetColor();
+                    break;
+
+                case "\u2588\u2588\u2588\u2588\u2588":
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(coordinate.VisualString);
                     Console.ResetColor();
@@ -124,6 +163,10 @@ namespace Battleships_Console.Models
             }   
         }
 
+        public void FireAtShips(Player player)
+        {
+
+        }
 
     }
 }

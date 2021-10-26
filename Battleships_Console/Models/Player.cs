@@ -56,5 +56,15 @@ namespace Battleships_Console.Models
             }
             Console.WriteLine();
         }
+
+        public bool AllShipsSunk()
+        {
+            foreach (var ship in ListOfShips)
+            {
+                if (ship.ShipSunk == false)
+                    return false;
+            }
+            return true;
+        }
     }
 }
