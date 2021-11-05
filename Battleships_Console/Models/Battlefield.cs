@@ -165,8 +165,93 @@ namespace Battleships_Console.Models
 
         public void FireAtShips(Player player)
         {
+            bool fire = false;
+            while (!fire)
+            {
+                try
+                {
+                    Console.Clear();
+                    player.PrintPlayerBar();
+                    PrintBattlefield();
+                    Console.WriteLine("Choose a coordinate to fire at: ");
+                    Console.Write("Write a letter A-J:");
+                    string letterCoordinate = Console.ReadLine();
+                    Console.Write("Write a number 1-10:");
+                    string numberCoordinate = Console.ReadLine();
+                    int yCoordinate = GetCoordinateForLetter(letterCoordinate);
+                    int xCoordinate = int.Parse(numberCoordinate);
+                    if (yCoordinate < 11 && yCoordinate > 0 && xCoordinate < 11 && xCoordinate > 0)
+                    {
+                        if (Coordinates[xCoordinate, yCoordinate].HasBeenHit == true)
+                            throw new Exception("This coordinate has already been hit!!");
+                        Coordinates[xCoordinate, yCoordinate].HasBeenHit = true;
+                        if (Coordinates[xCoordinate, yCoordinate].Ship != null)
+                        {
+                            var ship = Coordinates[xCoordinate, yCoordinate].Ship;
+                            Coordinates[xCoordinate, yCoordinate].VisualString = "\u2588\u2588\u2588";
+                            var q = ship.ListOfCoordinates
+                                .FirstOrDefault(q => q.YPosition == xCoordinate && q.XPosition == yCoordinate)
+                                .ShipHasBeenHit = true;
 
+                            ship.CheckIfShipSunk();
+
+                            Console.Clear();
+                            player.PrintPlayerBar();
+                            PrintBattlefield();
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("You HIT an enemy ship!!");
+                            Console.WriteLine("Press any key to continue!");
+                            Console.ReadKey();
+                        }
+                        else
+                        {
+                            Coordinates[xCoordinate, yCoordinate].VisualString = "\u2591\u2591\u2591";
+                            Console.Clear();
+                            player.PrintPlayerBar();
+                            PrintBattlefield();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("MISS !!");
+                            Console.WriteLine("Press any key to continue!");
+                            Console.ReadKey();
+                        }
+                        fire = true;
+                        break;
+                    }
+                }
+                catch
+                {
+                    fire = false;
+                }
+            }
         }
 
+        private int GetCoordinateForLetter(string coordinateLetter)
+        {
+            switch (coordinateLetter.ToUpper())
+            {
+                case "A":
+                    return 1;
+                case "B":
+                    return 2;
+                case "C":
+                    return 3;
+                case "D":
+                    return 4;
+                case "E":
+                    return 5;
+                case "F":
+                    return 6;
+                case "G":
+                    return 7;
+                case "H":
+                    return 8;
+                case "I":
+                    return 9;
+                case "J":
+                    return 10;
+                default:
+                    return 0;
+            }
+        }
     }
 }

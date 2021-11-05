@@ -9,9 +9,9 @@ namespace Battleships_Console.Models.Ships
     public class Destroyer : Ship
     {
         public Player Player { get; set; }
-        public List<BoatCoordiante> ListOfCoordinates { get; set; }
+        //public List<BoatCoordiante> ListOfCoordinates { get; set; }
         public bool PositionHorizontally { get; set; }
-        public Destroyer(Player player)
+        public Destroyer(Player player) /*: base(2)*/
         {
             ShipSunk = false;
             Player = player;

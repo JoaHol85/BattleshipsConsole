@@ -10,6 +10,7 @@ namespace Battleships_Console.Models
     {
         public int XPosition { get; set; }
         public int YPosition { get; set; }
+        public bool ShipHasBeenHit { get; set; } = false;
         public BoatCoordiante(int xPosition, int yPosition)
         {
             XPosition = xPosition;

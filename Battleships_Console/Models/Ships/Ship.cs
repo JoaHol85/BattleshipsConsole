@@ -12,7 +12,29 @@ namespace Battleships_Console.Models.Ships
         public bool HasBeenPlacedOnBattlefield { get; set; } = false;
         public bool Placeable { get; set; }
         public bool ShipSunk { get; set; }
+        public List<BoatCoordiante> ListOfCoordinates { get; set; }
 
+        //public Ship(int numberOfCoordinates)
+        //{
+        //    for (int i = 1; i < numberOfCoordinates + 1; i++)
+        //    {
+        //        new BoatCoordiante(1, i);
+        //    }
+        //}
+
+
+        public void CheckIfShipSunk()
+        {
+            ShipSunk = true;
+            foreach (var coordinate in ListOfCoordinates)
+            {
+                if (coordinate.ShipHasBeenHit == false)
+                {
+                    ShipSunk = false;
+                    break;
+                }
+            }
+        }
 
 
         //Checks if ship can be placed on coordinates

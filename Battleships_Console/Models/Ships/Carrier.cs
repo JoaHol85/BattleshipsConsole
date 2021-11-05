@@ -9,10 +9,10 @@ namespace Battleships_Console.Models.Ships
     public class Carrier : Ship
     {
         public Player Player { get; set; }
-        public List<BoatCoordiante> ListOfCoordinates { get; set; }
+        //public List<BoatCoordiante> ListOfCoordinates { get; set; }
         public bool PositionHorizontally { get; set; }
 
-        public Carrier(Player player)
+        public Carrier(Player player) /*: base (5)*/
         {
             ShipSunk = false;
             Player = player;

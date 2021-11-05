@@ -9,9 +9,9 @@ namespace Battleships_Console.Models.Ships
     public class Cruiser : Ship
     {
         public Player Player { get; set; }
-        public List<BoatCoordiante> ListOfCoordinates { get; set; }
+        //public List<BoatCoordiante> ListOfCoordinates { get; set; }
         public bool PositionHorizontally { get; set; }
-        public Cruiser(Player player)
+        public Cruiser(Player player) /*: base(3)*/
         {
             ShipSunk = false;
             Player = player;
