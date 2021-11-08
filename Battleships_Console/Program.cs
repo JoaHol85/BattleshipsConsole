@@ -2,6 +2,7 @@
 using Battleships_Console.Models.Ships;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Battleships_Console
 {
@@ -154,7 +155,6 @@ namespace Battleships_Console
                 Player1.Battlefield.FireAtShips(Player2);
 
                 finished = CheckForWinner();
-                Console.ReadKey();
             }
         }
 
@@ -172,17 +172,55 @@ namespace Battleships_Console
             }
             if (player1Won)
             {
-                Console.WriteLine($"{Player1.Name} WON, Congratulations!!!" +
-                                  $"{Player2.Name} you better go and practice some more before another game with {Player1.Name}");
+                PrintWinner();
+                if (Player2.Name == "CPU")
+                {
+                    Console.WriteLine($"{Player1.Name} WON, Congratulations!!!");
+                    Console.WriteLine($"{Player1.Name}, you beat the CPU! Good, now challenge a real player!!!");
+                }
+                if (Player2.Name != "CPU")
+                {
+                    Console.WriteLine($"{Player1.Name} WON, Congratulations!!!");
+                    Console.WriteLine($"{Player2.Name} you better go and practice some more before another game with {Player1.Name}");
+                }
                 return true;
             }
             if (player2Won)
             {
-                Console.WriteLine($"{Player2.Name} WON, Congratulations!!!" +
-                                  $"{Player1.Name} you better go and practice some more before another game with {Player2.Name}");
+                PrintWinner();
+                if (Player2.Name == "CPU")
+                {
+                    Console.WriteLine($"{Player2.Name} WON, Congratulations!!!" +
+                                      $"{Player1.Name}! Practice more!! You lost against the computer...");
+                }
+                if (Player2.Name != "CPU")
+                {
+                    Console.WriteLine($"{Player2.Name} WON, Congratulations!!!");
+                    Console.WriteLine($"{Player1.Name} you better go and practice some more before another game with {Player2.Name}");
+                }
                 return true;
             }
             return false;
+        }
+
+        private static void PrintWinner()
+        {
+            int x = 1;
+            while (true)
+            {
+                Console.ForegroundColor = x == 1 ? ConsoleColor.Blue : ConsoleColor.Yellow;
+                Console.WriteLine("█████   ███   █████ █████ ██████   █████ ██████   █████ ██████████ ███████████   ███ ███ ███ ");
+                Console.WriteLine("░░███   ░███  ░░███ ░░███ ░░██████ ░░███ ░░██████ ░░███ ░░███░░░░░█░░███░░░░░███ ░███░███░███");
+                Console.WriteLine(" ░███   ░███   ░███  ░███  ░███░███ ░███  ░███░███ ░███  ░███  █ ░  ░███    ░███ ░███░███░███");
+                Console.WriteLine(" ░███   ░███   ░███  ░███  ░███░░███░███  ░███░░███░███  ░██████    ░██████████  ░███░███░███");
+                Console.WriteLine(" ░░███  █████  ███   ░███  ░███ ░░██████  ░███ ░░██████  ░███░░█    ░███░░░░░███ ░███░███░███");
+                Console.WriteLine("  ░░░█████░█████░    ░███  ░███  ░░█████  ░███  ░░█████  ░███ ░   █ ░███    ░███ ░░░ ░░░ ░░░ ");
+                Console.WriteLine("    ░░███ ░░███      █████ █████  ░░█████ █████  ░░█████ ██████████ █████   █████ ███ ███ ███");
+                Console.WriteLine("     ░░░   ░░░      ░░░░░ ░░░░░    ░░░░░ ░░░░░    ░░░░░ ░░░░░░░░░░ ░░░░░   ░░░░░ ░░░ ░░░ ░░░ ");
+                Thread.Sleep(250);
+                Console.SetCursorPosition(0, 0);
+                x = x == 1 ? x = 2 : x = 1;
+            }
         }
 
         private static void PlaceShips(Player player)
