@@ -11,19 +11,13 @@ namespace Battleships_Console
         public static Player Player1;
         static void Main(string[] args)
         {
-            //Player1 = new Player(false);
-            //var player = new Player(false);
-            //player.PrintPlayerBar();
-            //player.Battlefield.PrintBattlefield();
             Run();
-
         }
 
         public static void Run()
         {
             EnteringScreen();
             MainMenu();
-
         }
 
         private static void MainMenu()
@@ -36,11 +30,12 @@ namespace Battleships_Console
                 Console.SetCursorPosition(0,0);
                 //Console.Clear();
                 PrintGameName();
-                Console.WriteLine("                                       Main Menu");
+                Console.WriteLine("\n\n                                                    Main Menu");
+                Console.WriteLine("                                                  \u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC\u25AC");
                 int index = 0;
                 foreach (var item in menuChoises)
                 {
-                    for (int i = 0; i < 39; i++)
+                    for (int i = 0; i < 52; i++)
                     {
                         Console.Write(" ");
                     }
@@ -115,7 +110,7 @@ namespace Battleships_Console
         {
             PrintGameName();
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Press any button to continue!");
+            Console.WriteLine("Press any key to continue!");
             Console.ReadKey(true);
             Console.ResetColor();
             Console.Clear();
@@ -124,24 +119,21 @@ namespace Battleships_Console
         private static void PrintGameName()
         {
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(@"$$$$$$$\             $$\     $$\     $$\                     $$\       $$\           ");
-            Console.WriteLine(@"$$  __$$\            $$ |    $$ |    $$ |                    $$ |      \__|          ");
-            Console.WriteLine(@"$$ |  $$ | $$$$$$\ $$$$$$\ $$$$$$\   $$ | $$$$$$\   $$$$$$$\ $$$$$$$\  $$\  $$$$$$\  ");
-            Console.WriteLine(@"$$$$$$$\ | \____$$\\_$$  _|\_$$  _|  $$ |$$  __$$\ $$  _____|$$  __$$\ $$ |$$  __$$\ ");
-            Console.WriteLine(@"$$  __$$\  $$$$$$$ | $$ |    $$ |    $$ |$$$$$$$$ |\$$$$$$\  $$ |  $$ |$$ |$$ /  $$ |");
-            Console.WriteLine(@"$$ |  $$ |$$  __$$ | $$ |$$\ $$ |$$\ $$ |$$   ____| \____$$\ $$ |  $$ |$$ |$$ |  $$ |");
-            Console.WriteLine(@"$$$$$$$  |\$$$$$$$ | \$$$$  |\$$$$  |$$ |\$$$$$$$\ $$$$$$$  |$$ |  $$ |$$ |$$$$$$$  |");
-            Console.WriteLine(@"\_______/  \_______|  \____/  \____/ \__| \_______|\_______/ \__|  \__|\__|$$  ____/ ");
-            Console.WriteLine(@"                                                                           $$ |      ");
-            Console.WriteLine(@"                                                                           $$ |      ");
-            Console.WriteLine(@"                                                                           \__|      ");
-            Console.ResetColor();
+            Console.WriteLine(" ███████████    █████████   ███████████ ███████████ █████       ██████████  █████████  █████   █████ █████ ███████████ ");
+            Console.WriteLine("░░███░░░░░███  ███░░░░░███ ░█░░░███░░░█░█░░░███░░░█░░███       ░░███░░░░░█ ███░░░░░███░░███   ░░███ ░░███ ░░███░░░░░███");
+            Console.WriteLine(" ░███    ░███ ░███    ░███ ░   ░███  ░ ░   ░███  ░  ░███        ░███  █ ░ ░███    ░░░  ░███    ░███  ░███  ░███    ░███");
+            Console.WriteLine(" ░██████████  ░███████████     ░███        ░███     ░███        ░██████   ░░█████████  ░███████████  ░███  ░██████████ ");
+            Console.WriteLine(" ░███░░░░░███ ░███░░░░░███     ░███        ░███     ░███        ░███░░█    ░░░░░░░░███ ░███░░░░░███  ░███  ░███░░░░░░  ");
+            Console.WriteLine(" ░███    ░███ ░███    ░███     ░███        ░███     ░███      █ ░███ ░   █ ███    ░███ ░███    ░███  ░███  ░███        ");
+            Console.WriteLine(" ███████████  █████   █████    █████       █████    ███████████ ██████████░░█████████  █████   █████ █████ █████       ");
+            Console.WriteLine("░░░░░░░░░░░  ░░░░░   ░░░░░    ░░░░░       ░░░░░    ░░░░░░░░░░░ ░░░░░░░░░░  ░░░░░░░░░  ░░░░░   ░░░░░ ░░░░░ ░░░░░        ");
+            Console.ResetColor();                                                                                                         
         }
 
         private static void RunGame(bool singleplayer)
         {
+            Console.Clear();
             bool finished = false;
-            //Placera skepp på spelplan.
             PlaceShips(Player1);
             if (!singleplayer)
                 PlaceShips(Player2);
@@ -207,35 +199,27 @@ namespace Battleships_Console
 
                     ConsoleKeyInfo keyInput = Console.ReadKey(true);
 
-                    if (keyInput.Key == ConsoleKey.S)
+                    switch(keyInput.Key)
                     {
-                        ship.MoveShipDown();
-                    }
-
-                    if (keyInput.Key == ConsoleKey.D)
-                    {
-                        ship.MoveShipRight();
-                    }
-
-                    if (keyInput.Key == ConsoleKey.A)
-                    {
-                        ship.MoveShipLeft();
-                    }
-
-                    if (keyInput.Key == ConsoleKey.W)
-                    {
-                        ship.MoveShipUp();
-                    }
-
-                    if (keyInput.Key == ConsoleKey.Spacebar)
-                    {
-                        ship.RotateShip();
-                    }
-
-                    if (keyInput.Key == ConsoleKey.Enter)
-                    {
-                        if(ship.Placeable)
-                            ship.HasBeenPlacedOnBattlefield = true;
+                        case ConsoleKey.S:
+                            ship.MoveShipDown();
+                            break;
+                        case ConsoleKey.D:
+                            ship.MoveShipRight();
+                            break;
+                        case ConsoleKey.W:
+                            ship.MoveShipUp();
+                            break;
+                        case ConsoleKey.A:
+                            ship.MoveShipLeft();
+                            break;
+                        case ConsoleKey.Spacebar:
+                            ship.RotateShip();
+                            break;
+                        case ConsoleKey.Enter:
+                            if (ship.Placeable)
+                                ship.HasBeenPlacedOnBattlefield = true;
+                            break;
                     }
                 }
             }

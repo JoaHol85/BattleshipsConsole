@@ -53,26 +53,18 @@ namespace Battleships_Console.Models
                         Console.WriteLine("To try again, press any key!");
                         Console.ReadKey();
                     }
-
                 }
             }
         }
 
         public void PrintPlayerBar()
         {
-            int nameLength = Name.Length;
-            int nameStart = (38 - Name.Length) / 2;
+            int playerBarWidth = 34;
+            int nameStart = (playerBarWidth - Name.Length) / 2;
 
-            if (FirstPlayer)
-                Console.BackgroundColor = ConsoleColor.Blue;
-            if (!FirstPlayer)
-                Console.BackgroundColor = ConsoleColor.Red;
+            Console.BackgroundColor = FirstPlayer ? ConsoleColor.Blue : ConsoleColor.Red;
 
-            for (int i = 0; i < 38; i++)
-            {
-                Console.Write(" ");
-            }
-            Console.WriteLine();
+            Console.WriteLine("                                  ");
 
             for (int i = 0; i < nameStart; i++)
             {
@@ -82,22 +74,11 @@ namespace Battleships_Console.Models
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write(Name);
 
-            if (FirstPlayer)
-                Console.BackgroundColor = ConsoleColor.Blue;
-            if (!FirstPlayer)
-                Console.BackgroundColor = ConsoleColor.Red;
-
-            for (int i = nameStart + nameLength; i < 38; i++)
+            for (int i = nameStart + Name.Length; i < playerBarWidth; i++)
             {
                 Console.Write(" ");
             }
-            Console.WriteLine();
-            
-            for (int i = 0; i < 38; i++)
-            {
-                Console.Write(" ");
-            }
-            Console.WriteLine();
+            Console.WriteLine("\n                                  ");
             Console.ResetColor();
         }
 

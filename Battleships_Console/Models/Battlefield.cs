@@ -25,9 +25,9 @@ namespace Battleships_Console.Models
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
                     if (y == 0 && x == 0)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588\u2588\u2588", Border = true };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588", Border = true };
                     else if (y == Coordinates.GetLength(0) - 1 && x == Coordinates.GetLength(1) - 1)
-                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588\u2588\u2588", Border = true };
+                        Coordinates[y, x] = new Coordinate() { VisualString = "\u2588", Border = true };
                     else if (y == 0 || y == Coordinates.GetLength(0) - 1)
                         Coordinates[y, x] = new Coordinate() { VisualString = "\u2588\u2588\u2588", Border = true };
                     else if (x == 0 || x == Coordinates.GetLength(1) - 1)
@@ -40,28 +40,28 @@ namespace Battleships_Console.Models
 
         public void PrintBattlefield()
         {
-            PrintLetterCoordinates();
+            //PrintLetterCoordinates();
             for (int y = 0; y < Coordinates.GetLength(0); y++)
             {
-                PrintNumberCoordinates(y, true);
+                //PrintNumberCoordinates(y, true);
                 for (int x = 0; x < Coordinates.GetLength(1); x++)
                 {
                     BattlefieldColors(Coordinates[y, x]);
                 }
-                PrintNumberCoordinates(y, false);
+                //PrintNumberCoordinates(y, false);
                 Console.WriteLine();
                 if (y != 0 && y != Coordinates.GetLength(0) - 1)
                 {
-                    PrintNumberCoordinates(y, true);
+                    //PrintNumberCoordinates(y, true);
                     for (int x = 0; x < Coordinates.GetLength(1); x++)
                     {
                         BattlefieldColors(Coordinates[y, x]);
                     }
-                    PrintNumberCoordinates(y, false);
+                    //PrintNumberCoordinates(y, false);
                     Console.WriteLine();
                 }
             }
-            PrintLetterCoordinates();
+            //PrintLetterCoordinates();
 
         }
 
@@ -166,51 +166,75 @@ namespace Battleships_Console.Models
         public void FireAtShips(Player player)
         {
             bool fire = false;
+            int yCoordinate = 1;
+            int xCoordinate = 1;
             while (!fire)
             {
                 try
                 {
-                    Console.Clear();
-                    player.PrintPlayerBar();
-                    PrintBattlefield();
-                    Console.WriteLine("Choose a coordinate to fire at: ");
-                    Console.Write("Write a letter A-J:");
-                    string letterCoordinate = Console.ReadLine();
-                    Console.Write("Write a number 1-10:");
-                    string numberCoordinate = Console.ReadLine();
-                    int yCoordinate = GetCoordinateForLetter(letterCoordinate);
-                    int xCoordinate = int.Parse(numberCoordinate);
+                    bool targetAquired = false;
+                    while (!targetAquired)
+                    {
+                        Console.SetCursorPosition(0, 0);
+                        player.PrintPlayerBar();
+                        Coordinates[yCoordinate, xCoordinate].VisualString = "XXX";
+                        PrintBattlefield();
+                        Coordinates[yCoordinate, xCoordinate].VisualString = "~~~";
+                        if (Coordinates[yCoordinate, xCoordinate].HasBeenHit)
+                        {
+                            Coordinates[yCoordinate, xCoordinate].VisualString = "\u2591\u2591\u2591";
+                            if (Coordinates[yCoordinate, xCoordinate].Ship != null)
+                                Coordinates[yCoordinate, xCoordinate].VisualString = "\u2588\u2588\u2588";
+                        }
+                        Console.WriteLine("Choose a coordinate to fire at: ");
+                        (yCoordinate, xCoordinate, targetAquired) = MoveToFire(yCoordinate, xCoordinate);
+
+                        if (yCoordinate < 1)
+                            yCoordinate = 1;
+                        if (yCoordinate > 10)
+                            yCoordinate = 10;
+                        if (xCoordinate < 1)
+                            xCoordinate = 1;
+                        if (xCoordinate > 10)
+                            xCoordinate = 10;
+                    }
+
                     if (yCoordinate < 11 && yCoordinate > 0 && xCoordinate < 11 && xCoordinate > 0)
                     {
-                        if (Coordinates[xCoordinate, yCoordinate].HasBeenHit == true)
+                        if (Coordinates[yCoordinate, xCoordinate].HasBeenHit == true)
                             throw new Exception("This coordinate has already been hit!!");
-                        Coordinates[xCoordinate, yCoordinate].HasBeenHit = true;
-                        if (Coordinates[xCoordinate, yCoordinate].Ship != null)
+                        Coordinates[yCoordinate, xCoordinate].HasBeenHit = true;
+                        if (Coordinates[yCoordinate, xCoordinate].Ship != null)
                         {
-                            var ship = Coordinates[xCoordinate, yCoordinate].Ship;
-                            Coordinates[xCoordinate, yCoordinate].VisualString = "\u2588\u2588\u2588";
+                            var ship = Coordinates[yCoordinate, xCoordinate].Ship;
+                            Coordinates[yCoordinate, xCoordinate].VisualString = "\u2588\u2588\u2588";
                             var q = ship.ListOfCoordinates
-                                .FirstOrDefault(q => q.YPosition == xCoordinate && q.XPosition == yCoordinate)
+                                .FirstOrDefault(q => q.YPosition == yCoordinate && q.XPosition == xCoordinate)
                                 .ShipHasBeenHit = true;
 
                             ship.CheckIfShipSunk();
-
+                            Console.Clear();
+                            PrintHit();
+                            Console.WriteLine("Press any key to continue!");
+                            Console.ReadKey();
                             Console.Clear();
                             player.PrintPlayerBar();
                             PrintBattlefield();
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("You HIT an enemy ship!!");
                             Console.WriteLine("Press any key to continue!");
                             Console.ReadKey();
                         }
                         else
                         {
-                            Coordinates[xCoordinate, yCoordinate].VisualString = "\u2591\u2591\u2591";
+                            Coordinates[yCoordinate, xCoordinate].VisualString = "\u2591\u2591\u2591";
+                            Console.Clear();
+                            PrintMiss();
+                            Console.WriteLine("Press any key to continue!");
+                            Console.ReadKey();
                             Console.Clear();
                             player.PrintPlayerBar();
                             PrintBattlefield();
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("MISS !!");
                             Console.WriteLine("Press any key to continue!");
                             Console.ReadKey();
                         }
@@ -252,6 +276,54 @@ namespace Battleships_Console.Models
                 default:
                     return 0;
             }
+        }
+
+        private static void PrintMiss()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" ██████   ██████ █████  █████████   █████████ ");
+            Console.WriteLine("░░██████ ██████ ░░███  ███░░░░░███ ███░░░░░███");
+            Console.WriteLine(" ░███░█████░███  ░███ ░███    ░░░ ░███    ░░░ ");
+            Console.WriteLine(" ░███░░███ ░███  ░███ ░░█████████ ░░█████████ ");
+            Console.WriteLine(" ░███ ░░░  ░███  ░███  ░░░░░░░░███ ░░░░░░░░███");
+            Console.WriteLine(" ░███      ░███  ░███  ███    ░███ ███    ░███");
+            Console.WriteLine(" █████     █████ █████░░█████████ ░░█████████ ");
+            Console.WriteLine("░░░░░     ░░░░░ ░░░░░  ░░░░░░░░░   ░░░░░░░░░  ");
+            Console.ResetColor();
+        }
+
+        private static void PrintHit()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(" █████   █████ █████ ███████████");
+            Console.WriteLine("░░███   ░░███ ░░███ ░█░░░███░░░█");
+            Console.WriteLine(" ░███    ░███  ░███ ░   ░███  ░ ");
+            Console.WriteLine(" ░███████████  ░███     ░███    ");
+            Console.WriteLine(" ░███░░░░░███  ░███     ░███    ");
+            Console.WriteLine(" ░███    ░███  ░███     ░███    ");
+            Console.WriteLine(" █████   █████ █████    █████   ");
+            Console.WriteLine("░░░░░   ░░░░░ ░░░░░    ░░░░░    ");
+            Console.ResetColor();
+        }
+
+        private (int, int, bool) MoveToFire(int yCoordinate, int xCoordinate)
+        {
+            ConsoleKeyInfo keyInput = Console.ReadKey(true);
+
+            switch (keyInput.Key)
+            {
+                case ConsoleKey.S:
+                    return (yCoordinate += 1, xCoordinate, false);
+                case ConsoleKey.D:
+                    return (yCoordinate, xCoordinate += 1, false);
+                case ConsoleKey.W:
+                    return (yCoordinate -= 1, xCoordinate, false);
+                case ConsoleKey.A:
+                    return (yCoordinate, xCoordinate -= 1, false);
+                case ConsoleKey.Enter:
+                    return (yCoordinate, xCoordinate, true);
+            }
+            return (yCoordinate, xCoordinate, false);
         }
     }
 }
