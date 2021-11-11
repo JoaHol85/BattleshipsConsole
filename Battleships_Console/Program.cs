@@ -110,10 +110,8 @@ namespace Battleships_Console
         private static void EnteringScreen()
         {
             PrintGameName();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Press any key to continue!");
-            Console.ReadKey(true);
-            Console.ResetColor();
+            Console.WriteLine("\n\n\n\n                                                 Please wait!");
+            Thread.Sleep(2000);
             Console.Clear();
         }
 
@@ -139,7 +137,14 @@ namespace Battleships_Console
             if (!singleplayer)
                 PlaceShips(Player2);
             else
-                PlaceShips(Player2); // AUTOMATISERAT SPELARE CPU
+            {
+                if (Player2.Name == "CPU")
+                    PlaceShips(Player2); // AUTOMATISERA PLACERINGEN AV SKEPP.
+                else
+                    PlaceShips(Player2);
+            }
+                if (Player2.Name != "CPU")
+                    PlaceShips(Player2);
             while (!finished)
             {
                 Console.Clear();
@@ -220,6 +225,19 @@ namespace Battleships_Console
                 Thread.Sleep(250);
                 Console.SetCursorPosition(0, 0);
                 x = x == 1 ? x = 2 : x = 1;
+            }
+        }
+
+        private static void PlaceShipsCPU(Player player)
+        {
+            Random rng = new Random();
+            foreach (var ship in player.ListOfShips)
+            {
+                while (!ship.HasBeenPlacedOnBattlefield)
+                {
+                    int yCoordinate = rng.Next(1, 11);
+                    int xCoordinate = rng.Next(1, 11);
+                }
             }
         }
 

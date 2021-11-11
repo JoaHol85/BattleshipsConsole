@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Battleships_Console.Models
@@ -114,11 +115,11 @@ namespace Battleships_Console.Models
                     Console.ResetColor();
                     break;
 
-                case "\u2588\u2588\u2588\u2588\u2588":
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write(coordinate.VisualString);
-                    Console.ResetColor();
-                    break;
+                //case "\u2588\u2588\u2588\u2588\u2588":
+                //    Console.ForegroundColor = ConsoleColor.Green;
+                //    Console.Write(coordinate.VisualString);
+                //    Console.ResetColor();
+                //    break;
 
                 case "\u2588\u2588\u2588":
                     if (coordinate.Ship is Destroyer)
@@ -215,28 +216,28 @@ namespace Battleships_Console.Models
                             ship.CheckIfShipSunk();
                             Console.Clear();
                             PrintHit();
-                            Console.WriteLine("Press any key to continue!");
-                            Console.ReadKey();
+                            Thread.Sleep(1000);
                             Console.Clear();
                             player.PrintPlayerBar();
                             PrintBattlefield();
                             Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Press any key to continue!");
-                            Console.ReadKey();
+                            Console.WriteLine("You hit an enemy ship!");
+                            Console.ResetColor();
+                            Thread.Sleep(2000);
                         }
                         else
                         {
                             Coordinates[yCoordinate, xCoordinate].VisualString = "\u2591\u2591\u2591";
                             Console.Clear();
                             PrintMiss();
-                            Console.WriteLine("Press any key to continue!");
-                            Console.ReadKey();
+                            Thread.Sleep(1000);
                             Console.Clear();
                             player.PrintPlayerBar();
                             PrintBattlefield();
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Press any key to continue!");
-                            Console.ReadKey();
+                            Console.WriteLine("You missed your shot!");
+                            Console.ResetColor();
+                            Thread.Sleep(2000);
                         }
                         fire = true;
                         break;

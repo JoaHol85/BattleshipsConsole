@@ -20,7 +20,7 @@ namespace Battleships_Console.Models
 
         public Player(bool cpuPlayer, bool firstPlayer)
         {
-            Name = cpuPlayer == true ? "CPU" : SetPlayerName();
+            Name = cpuPlayer == true ? "CPU" : SetPlayerName(firstPlayer);
             FirstPlayer = firstPlayer;
             Battlefield = new Battlefield(this);
             Destroyer = new Destroyer(this);
@@ -36,12 +36,13 @@ namespace Battleships_Console.Models
             };
         }
 
-        private static string SetPlayerName()
+        private static string SetPlayerName(bool firstPlayer)
         {
             while (true)
             {
+                string text = firstPlayer ? "Player 1\nInsert your name: " : "Player 2\nInsert your name: ";
                 Console.Clear();
-                Console.Write("Type your name: ");
+                Console.Write(text);
                 string name = Console.ReadLine();
                 if (name != "")
                 {
